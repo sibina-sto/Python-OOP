@@ -1,4 +1,4 @@
-from Person.person import Person
+from person import Person
 
 
 class Child(Person):
