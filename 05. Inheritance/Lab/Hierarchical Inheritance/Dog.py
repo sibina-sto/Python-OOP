@@ -1,4 +1,4 @@
-from person.project import Animal
+from project import Animal
 
 
 class Dog(Animal):
