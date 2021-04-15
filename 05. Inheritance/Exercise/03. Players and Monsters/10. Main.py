@@ -1,5 +1,5 @@
-from Restaurant.elf import Elf
-from Restaurant.hero import Hero
+from elf import Elf
+from hero import Hero
 
 hero = Hero("H", 4)
 print(hero.username)
