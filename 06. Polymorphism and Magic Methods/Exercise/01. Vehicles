@@ -2,9 +2,6 @@ from abc import ABC, abstractmethod
 
 
 class Vehicle(ABC):
-    def __init__(self, fuel_quantity, fuel_consumption):
-        self.fuel_quantity = fuel_quantity
-        self.fuel_consumption = fuel_consumption
 
     @abstractmethod
     def drive(self, distance):
@@ -16,34 +13,31 @@ class Vehicle(ABC):
 
 
 class Car(Vehicle):
-    _CONSUMPTION_PER_KM = 0.9
-
-    def get_fuel_needed(self, distance):
-        return (self.fuel_consumption + Car._CONSUMPTION_PER_KM) * distance
+    def __init__(self, fuel_quantity, fuel_consumption):
+        self.fuel_quantity = fuel_quantity
+        self.fuel_consumption = fuel_consumption
 
     def drive(self, distance):
-        fuel_needed = self.get_fuel_needed(distance)
-        if fuel_needed <= self.fuel_quantity:
-            self.fuel_quantity -= fuel_needed
+        driving_fuel = self.fuel_consumption + 0.9
+        if  self.fuel_quantity >= distance * driving_fuel:
+            self.fuel_quantity -= distance * driving_fuel
 
     def refuel(self, fuel):
         self.fuel_quantity += fuel
 
 
 class Truck(Vehicle):
-    _CONSUMPTION_PER_KM = 1.6
-    _KEPT_FUEL_PERCENTAGE = 0.95
-
-    def get_fuel_needed(self, distance):
-        return (self.fuel_consumption + Truck._CONSUMPTION_PER_KM) * distance
+    def __init__(self, fuel_quantity, fuel_consumption):
+        self.fuel_quantity = fuel_quantity
+        self.fuel_consumption = fuel_consumption
 
     def drive(self, distance):
-        fuel_needed = self.get_fuel_needed(distance)
-        if fuel_needed <= self.fuel_quantity:
-            self.fuel_quantity -= fuel_needed
+        driving_fuel = self.fuel_consumption + 1.6
+        if self.fuel_quantity >= distance * driving_fuel:
+            self.fuel_quantity -= distance * driving_fuel
 
     def refuel(self, fuel):
-        self.fuel_quantity += fuel * Truck._KEPT_FUEL_PERCENTAGE
+        self.fuel_quantity += fuel * 0.95
 
 
 car = Car(20, 5)
