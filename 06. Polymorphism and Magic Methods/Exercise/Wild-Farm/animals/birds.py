@@ -1,6 +1,6 @@
 
-from Animals.animals.animal import Bird
-from Animals.food import Meat, Vegetable, Fruit, Seed
+from animal import Bird
+from food import Meat, Vegetable, Fruit, Seed
 
 
 class Owl(Bird):
