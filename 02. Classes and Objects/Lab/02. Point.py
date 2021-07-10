@@ -1,23 +1,15 @@
-from math import sqrt
-
+# Ines
 
 class Point:
     def __init__(self, x: int, y: int):
         self.x = x
         self.y = y
 
-    def set_x(self, new_x: int):
+    def set_x(self, new_x):
         self.x = new_x
 
-    def set_y(self, new_y: int):
+    def set_y(self, new_y):
         self.y = new_y
 
-    def distance(self, x: int, y: int):
-        distance = sqrt((self.x - x) ** 2 + (self.y - y) ** 2)
-        return distance
-
-
-p = Point(2, 4)
-p.set_x(3)
-p.set_y(5)
-print(p.distance(10, 2))
+    def __str__(self):
+        return f"The point has coordinates ({self.x},{self.y})"
