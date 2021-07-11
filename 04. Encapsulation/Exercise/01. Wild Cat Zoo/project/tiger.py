@@ -2,5 +2,6 @@ from project.animal import Animal
 
 
 class Tiger(Animal):
-    def get_needs(self):
-        return 45
+
+    def __init__(self, name, gender, age):
+        super().__init__(name, gender, age, 45)
