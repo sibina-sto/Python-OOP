@@ -1,15 +1,9 @@
-from abc import ABC, abstractmethod
-
-
-class Animal(ABC):
-    def __init__(self, name, gender, age):
+class Animal:
+    def __init__(self, name: str, gender: str, age: int, money_for_care:int):
         self.name = name
-        self.age = age
         self.gender = gender
+        self.age = age
+        self.money_for_care = money_for_care
 
     def __repr__(self):
         return f"Name: {self.name}, Age: {self.age}, Gender: {self.gender}"
-
-    @abstractmethod
-    def get_needs(self):
-        pass
