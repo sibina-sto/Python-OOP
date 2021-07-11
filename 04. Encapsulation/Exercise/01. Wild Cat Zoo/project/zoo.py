@@ -1,4 +1,5 @@
 class Zoo:
+
     def __init__(self, name, budget, animal_capacity, workers_capacity):
         self.name = name
         self.__budget = budget
@@ -8,84 +9,97 @@ class Zoo:
         self.workers = []
 
     def add_animal(self, animal, price):
-        if self.__budget >= price and self.__animal_capacity > len(self.animals):
-            self.__budget -= price
+        if self.__animal_capacity > len(self.animals) and self.__budget >= price:
             self.animals.append(animal)
+            self.__budget -= price
             return f"{animal.name} the {animal.__class__.__name__} added to the zoo"
-        elif len(self.animals) >= self.__animal_capacity:
-            return "Not enough space for animal"
-        return "Not enough budget"
+
+        if self.__animal_capacity > len(self.animals) and self.__budget < price:
+            return "Not enough budget"
+
+        return "Not enough space for animal"
 
     def hire_worker(self, worker):
-        if self.__workers_capacity > len(self.workers):
+        if len(self.workers) < self.__workers_capacity:
             self.workers.append(worker)
             return f"{worker.name} the {worker.__class__.__name__} hired successfully"
         return "Not enough space for worker"
 
     def fire_worker(self, worker_name):
-        obj = self.find_worker_in_list_by_name(worker_name)
-        if obj:
-            self.workers.remove(obj[0])
-            return f"{worker_name} fired successfully"
+        for el in self.workers:
+            if el.name == worker_name:
+                self.workers.remove(el)
+                return f"{worker_name} fired successfully"
         return f"There is no {worker_name} in the zoo"
 
     def pay_workers(self):
-        sum_of_all_salaries = self.sum_all_salaries()
-        if self.__budget >= sum_of_all_salaries:
-            self.__budget -= sum_of_all_salaries
+        amount = 0
+        for worker in self.workers:
+            amount += worker.salary
+        if self.__budget >= amount:
+            self.__budget -= amount
             return f"You payed your workers. They are happy. Budget left: {self.__budget}"
         return "You have no budget to pay your workers. They are unhappy"
 
     def tend_animals(self):
-        needed_money_to_tend = self.get_sum_of_all_tended()
-        if self.__budget >= needed_money_to_tend:
-            self.__budget -= needed_money_to_tend
+        amount = 0
+        for animal in self.animals:
+            amount += animal.money_for_care
+        if self.__budget >= amount:
+            self.__budget -= amount
             return f"You tended all the animals. They are happy. Budget left: {self.__budget}"
-        return 'You have no budget to tend the animals. They are unhappy.'
+        return "You have no budget to tend the animals. They are unhappy."
 
-    def profit(self, price):
-        self.__budget += price
+    def profit(self, amount):
+        self.__budget += amount
 
     def animals_status(self):
-        list_of_lions = self.find_list_by_type('Lion', self.animals)
-        list_of_tigers = self.find_list_by_type('Tiger', self.animals)
-        list_of_cheetahs = self.find_list_by_type('Cheetah', self.animals)
-        result = [
-            f'You have {len(self.animals)} animals',
-            f'----- {len(list_of_lions)} Lions:',
-            '\n'.join([str(l) for l in list_of_lions]),
-            f'----- {len(list_of_tigers)} Tigers:',
-            '\n'.join([str(l) for l in list_of_tigers]),
-            f'----- {len(list_of_cheetahs)} Cheetahs:',
-            '\n'.join([str(l) for l in list_of_cheetahs]),
-        ]
-        return '\n'.join(result)
+        result = ''
+        result += f"You have {len(self.animals)} animals\n"
+        lions = [animal for animal in self.animals if animal.__class__.__name__ == "Lion"]
+        result += f"----- {len(lions)} Lions:\n"
+
+        if lions:
+            for lion in lions:
+                result += f"Name: {lion.name}, Age: {lion.age}, Gender: {lion.gender}\n"
+        tigers = [animal for animal in self.animals if animal.__class__.__name__ == 'Tiger']
+        result += f"----- {len(tigers)} Tigers:\n"
+
+        if tigers:
+            for tiger in tigers:
+                result += f"Name: {tiger.name}, Age: {tiger.age}, Gender: {tiger.gender}\n"
+        cheetahs = [animal for animal in self.animals if animal.__class__.__name__ == 'Cheetah']
+        result += f"----- {len(cheetahs)} Cheetahs:\n"
+
+        if cheetahs:
+            for cheetah in cheetahs[:-1]:
+                result += f"Name: {cheetah.name}, Age: {cheetah.age}, Gender: {cheetah.gender}\n"
+            for cheetah in cheetahs[-1:]:
+                result += f"Name: {cheetah.name}, Age: {cheetah.age}, Gender: {cheetah.gender}"
+        return result
 
     def workers_status(self):
-        list_of_keepers = self.find_list_by_type('Keeper', self.workers)
-        list_of_caretakers = self.find_list_by_type('Caretaker', self.workers)
-        list_of_vets = self.find_list_by_type('Vet', self.workers)
-        result = [
-            f'You have {len(self.workers)} workers',
-            f'----- {len(list_of_keepers)} Keepers:',
-            '\n'.join([str(l) for l in list_of_keepers]),
-            f'----- {len(list_of_keepers)} Caretakers:',
-            '\n'.join([str(l) for l in list_of_caretakers]),
-            f'----- {len(list_of_vets)} Vets:',
-            '\n'.join([str(l) for l in list_of_vets]),
-        ]
-        return '\n'.join(result)
+        result = ''
+        result += f"You have {len(self.workers)} workers\n"
+        keepers = [worker for worker in self.workers if worker.__class__.__name__ == 'Keeper']
+        result += f"----- {len(keepers)} Keepers:\n"
 
-    # helper
-    def find_worker_in_list_by_name(self, worker_name):
-        return [w for w in self.workers if w.name == worker_name]
+        if keepers:
+            for keeper in keepers:
+                result += f"Name: {keeper.name}, Age: {keeper.age}, Salary: {keeper.salary}\n"
+        caretakers = [worker for worker in self.workers if worker.__class__.__name__ == 'Caretaker']
+        result += f"----- {len(caretakers)} Caretakers:\n"
 
-    def sum_all_salaries(self):
-        return sum([w.salary for w in self.workers])
+        if caretakers:
+            for caretaker in caretakers:
+                result += f"Name: {caretaker.name}, Age: {caretaker.age}, Salary: {caretaker.salary}\n"
+        vets = [worker for worker in self.workers if worker.__class__.__name__ == 'Vet']
+        result += f"----- {len(vets)} Vets:\n"
 
-    def get_sum_of_all_tended(self):
-        return sum([a.get_needs() for a in self.animals])
+        if vets:
+            for vet in vets[:-1]:
+                result += f"Name: {vet.name}, Age: {vet.age}, Salary: {vet.salary}\n"
+            for vet in vets[-1:]:
+                result += f"Name: {vet.name}, Age: {vet.age}, Salary: {vet.salary}"
 
-    @staticmethod
-    def find_list_by_type(type_of_animal, list_of_types):
-        return [a for a in list_of_types if a.__class__.__name__ == type_of_animal]
+        return result
