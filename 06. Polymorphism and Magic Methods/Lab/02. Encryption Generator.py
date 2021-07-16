@@ -16,6 +16,7 @@ class EncryptionGenerator:
             result += chr(encoded_char)
         return result
 
-example = EncryptionGenerator('Super-Secret Message')
-example2 = EncryptionGenerator('asd')
-print(example  + example2)
+
+some_text = EncryptionGenerator('I Love Python!')
+print(some_text + 1)
+print(some_text + (-1))
