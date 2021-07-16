@@ -1,23 +1,21 @@
 class EncryptionGenerator:
-    def __init__(self, text: str):
+    def __init__(self, text):
         self.text = text
 
-    def __add__(self, other: int):
+    def __add__(self, other):
         if not isinstance(other, int):
-            raise ValueError('You must add a number.')
+            raise ValueError("You must add a number.")
 
-        result = ''
-        for el in self.text:
-            ch_num = ord(el) + other
-            if ch_num < 32:
-                ch_num += 95
-            if ch_num > 126:
-                ch_num -= 95
-            result += chr(ch_num)
-
+        result = ""
+        for char in self.text:
+            encoded_char = ord(char) + other
+            while encoded_char < 32:
+                encoded_char += 95
+            while encoded_char > 126:
+                encoded_char -= 95
+            result += chr(encoded_char)
         return result
 
-
-some_text = EncryptionGenerator('I Love Python!')
-print(some_text + 1)
-print(some_text + (-1))
+example = EncryptionGenerator('Super-Secret Message')
+example2 = EncryptionGenerator('asd')
+print(example  + example2)
