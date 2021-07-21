@@ -2,11 +2,13 @@ from abc import ABC, abstractmethod
 
 
 class BaseFish(ABC):
+    @abstractmethod
     def __init__(self, name: str, species: str, size: int, price: float):
         self.name = name
         self.species = species
         self.size = size
         self.price = price
+        self.aquarium = ""
 
     @property
     def name(self):
@@ -14,7 +16,7 @@ class BaseFish(ABC):
 
     @name.setter
     def name(self, value):
-        if not value:
+        if value == "":
             raise ValueError("Fish name cannot be an empty string.")
         self.__name = value
 
@@ -24,7 +26,7 @@ class BaseFish(ABC):
 
     @species.setter
     def species(self, value):
-        if not value:
+        if value == "":
             raise ValueError("Fish species cannot be an empty string.")
         self.__species = value
 
@@ -38,6 +40,5 @@ class BaseFish(ABC):
             raise ValueError("Price cannot be equal to or below zero.")
         self.__price = value
 
-    @abstractmethod
     def eat(self):
         self.size += 5
