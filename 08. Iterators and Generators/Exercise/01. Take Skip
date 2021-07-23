@@ -17,10 +17,3 @@ class take_skip:
             self.counter += 1
             return temp
         raise StopIteration()
-
-numbers = take_skip(2, 6)
-for number in numbers:
-    print(number)
-numbers = take_skip(10, 5)
-for number in numbers:
-    print(number)
