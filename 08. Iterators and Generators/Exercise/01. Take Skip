@@ -1,3 +1,4 @@
+# Ines
 class take_skip:
 
     def __init__(self, step, count):
@@ -5,6 +6,7 @@ class take_skip:
         self.count = count
         self.start = 0
         self.counter = 0
+
     def __iter__(self):
         return self
 
