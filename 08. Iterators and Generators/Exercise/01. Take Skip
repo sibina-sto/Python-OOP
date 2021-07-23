@@ -1,4 +1,5 @@
 # Ines
+
 class take_skip:
 
     def __init__(self, step, count):
@@ -17,3 +18,7 @@ class take_skip:
             self.counter += 1
             return temp
         raise StopIteration()
+
+# numbers = take_skip(2, 6)
+# for number in numbers:
+#    print(number)
