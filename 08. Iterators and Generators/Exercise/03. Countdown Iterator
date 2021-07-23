@@ -13,3 +13,7 @@ class countdown_iterator:
             self.count -= 1
             return temp
         raise StopIteration()
+        
+# result = dictionary_iter({1: "1", 2: "2"})
+# for x in result:
+#     print(x)
