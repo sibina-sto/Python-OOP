@@ -19,3 +19,8 @@ def solution():
             my_list.append(num)
 
     return (take, halves, integers)
+    
+# take = solution()[0]
+# halves = solution()[1]
+# integers = solution()[2]
+# print(take(5, integers()))
