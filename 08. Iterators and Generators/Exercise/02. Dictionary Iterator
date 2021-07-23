@@ -17,3 +17,7 @@ class dictionary_iter:
             self.current_index += 1
             return (key, value)
         raise StopIteration()
+
+# result = dictionary_iter({1: "1", 2: "2"})
+# for x in result:
+#     print(x)
