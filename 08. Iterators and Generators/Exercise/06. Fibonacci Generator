@@ -11,6 +11,6 @@ def fibonacci():
             yield fibbo[len(fibbo)-2] + fibbo[len(fibbo)-1]
             fibbo.append(fibbo[len(fibbo)-2] + fibbo[len(fibbo)-1])
 
-generator = fibonacci()
-for i in range(5):
-    print(next(generator))
+# generator = fibonacci()
+# for i in range(5):
+#    print(next(generator))
