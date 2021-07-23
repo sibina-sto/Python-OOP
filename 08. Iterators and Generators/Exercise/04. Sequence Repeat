@@ -1,4 +1,5 @@
 # Ines
+
 class sequence_repeat:
     def __init__(self, sequence, number):
         self.sequence = sequence
@@ -17,3 +18,7 @@ class sequence_repeat:
             self.counter += 1
             return self.sequence[self.current_index - 1]
         raise StopIteration()
+        
+# result = sequence_repeat('abc', 5)
+# for item in result:
+#     print(item, end ='')
