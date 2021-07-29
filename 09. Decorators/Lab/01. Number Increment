@@ -1,9 +1,8 @@
-def number_increment(numbers):
+# Ines
 
+def number_increment(nums):
     def increase():
-        nonlocal numbers
-        return [i+1 for i in numbers]
-
+        return [num + 1 for num in nums]
     return increase()
 
 
