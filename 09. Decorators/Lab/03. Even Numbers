@@ -1,8 +1,9 @@
-def even_numbers(func):
-    def wrapper(num):
-        num = func(num)
-        result = [x for x in numbers if x % 2 == 0]
-        return result
+# Ines
+
+def even_numbers(ref_func):
+    def wrapper(nums):
+        result = ref_func(nums)
+        return [num for num in result if num % 2 == 0]
     return wrapper
 
 
