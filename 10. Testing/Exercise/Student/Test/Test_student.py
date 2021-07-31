@@ -1,73 +1,60 @@
-from unittest import TestCase, main
+import unittest
 
-# from OOP.testing.student.project.student import Student
 from project.student import Student
 
-class TestStudent(TestCase):
+
+class StudentTests(unittest.TestCase):
     def setUp(self):
-        self.student_1 = Student("Test1")
+        name = "Peter"
+        courses = None
+        self.student = Student(name, courses)
 
-    def test_attr_are_set(self):
-        self.assertEqual("Test1", self.student_1.name)
-        self.assertEqual({}, self.student_1.courses)
+    def test_init(self):
+        self.assertEqual(self.student.name, "Peter")
+        self.assertEqual(self.student.courses, {})
 
-    def test_enroll_course_with_notes_1(self):
-        result = self.student_1.enroll("Python OOP", ["Inheritance", "SOLID"])
-        self.assertEqual(1, len(self.student_1.courses))
-        self.assertEqual(2, len(self.student_1.courses["Python OOP"]))
-        self.assertEqual("Course and course notes have been added.", result)
+    def test_enroll_update_notes_when_course_existing(self):
+        self.student.courses = {"MathForDevs": []}
+        enroll_course = self.student.enroll("MathForDevs", ["Basic Algebra", "Linear Algebra", "Vectors"], "Math")
+        self.assertEqual(enroll_course, "Course already added. Notes have been updated.")
 
-    def test_enroll_course_with_notes_2(self):
-        result = self.student_1.enroll("Python OOP", ["Inheritance", "SOLID"], "Y")
-        self.assertEqual(1, len(self.student_1.courses))
-        self.assertEqual(2, len(self.student_1.courses["Python OOP"]))
-        self.assertEqual("Course and course notes have been added.", result)
+    def test_enroll_add_course_and_notes_when_course_note_is_Y(self):
+        enroll_course = self.student.enroll("DataScience", ["Statistics", "Combinatorics", "Hypothesis"], "Y")
+        self.assertEqual(enroll_course, "Course and course notes have been added.")
 
-    def test_enroll_course_with_notes_without_saving_them(self):
-        result = self.student_1.enroll("Python OOP", ["Inheritance", "SOLID"], "N")
-        self.assertEqual(1, len(self.student_1.courses))
-        self.assertEqual(0, len(self.student_1.courses["Python OOP"]))
-        self.assertEqual("Course has been added.", result)
+    def test_enroll_add_course_and_notes_when_course_note_is_EmptyString(self):
+        enroll_course = self.student.enroll("ML", ["Sentiment Analysis", "Abnormalities Detection"], "")
+        self.assertEqual(enroll_course, "Course and course notes have been added.")
 
-    def test_enroll_add_notes_to_existing_course(self):
-        result = self.student_1.enroll("Python OOP", ["Inheritance", "SOLID"])
-        self.assertEqual(1, len(self.student_1.courses))
-        self.assertEqual(2, len(self.student_1.courses["Python OOP"]))
-        self.assertEqual("Course and course notes have been added.", result)
+    def test_enroll_add_new_course(self):
+        enroll_course = self.student.enroll("AI", ["TensorFlow.", "PyTorch", "Scikit Learn"], "AI")
+        self.assertEqual(self.student.courses, {"AI": []})
+        self.assertEqual(enroll_course, "Course has been added.")
 
-        result = self.student_1.enroll("Python OOP", ["Abstraction", "Testing"])
-        self.assertEqual(1, len(self.student_1.courses))
-        self.assertEqual(4, len(self.student_1.courses["Python OOP"]))
-        self.assertEqual("Course already added. Notes have been updated.", result)
+    def test_add_notes_when_course_existing(self):
+        self.student.courses = {"MathForDevs": []}
+        notes_for_add = self.student.add_notes("MathForDevs", ["Calculus", "Statistics", "High School Math"])
+        self.assertEqual(notes_for_add, "Notes have been updated")
 
-    def test_add_notes_not_existing_course_raises(self):
-        with self.assertRaises(Exception) as ex:
-            self.student_1.add_notes("Python OOP", ["1", 2])
-        self.assertEqual("Cannot add notes. Course not found.", str(ex.exception))
+    def test_add_notes_when_course_not_existing(self):
+        with self.assertRaises(Exception) as context:
+            self.student.add_notes("MathForDevs", ["Calculus", "Statistics", "High School Mat"])
+        expected_msg = str(context.exception)
+        actual_msg = "Cannot add notes. Course not found."
+        self.assertEqual(expected_msg, actual_msg)
 
-    def test_add_notes_to_existing_course(self):
-        result = self.student_1.enroll("Python OOP", ["Inheritance", "SOLID"])
-        self.assertEqual(1, len(self.student_1.courses))
-        self.assertEqual(2, len(self.student_1.courses["Python OOP"]))
-        self.assertEqual("Course and course notes have been added.", result)
+    def test_leave_courses_when_course_existing(self):
+        self.student.courses = {"MathForDevs": []}
+        course_for_leaving = self.student.leave_course("MathForDevs")
+        self.assertEqual(course_for_leaving, "Course has been removed")
 
-        result = self.student_1.add_notes("Python OOP", "Testing")
-        self.assertEqual("Notes have been updated", result)
-        self.assertEqual(3, len(self.student_1.courses["Python OOP"]))
-        self.assertIn("Testing", self.student_1.courses["Python OOP"])
-
-    def test_unexisting_course_removal_raises(self):
-        with self.assertRaises(Exception) as ex:
-            self.student_1.leave_course("Python OOP")
-        self.assertEqual("Cannot remove course. Course not found.", str(ex.exception))
-
-    def test_leave_existing_course(self):
-        result = self.student_1.enroll("Python OOP", ["Inheritance", "SOLID"])
-        self.assertEqual(1, len(self.student_1.courses))
-
-        result = self.student_1.leave_course("Python OOP")
-        self.assertEqual("Course has been removed", result)
-        self.assertEqual(0, len(self.student_1.courses))
+    def test_leave_courses_when_course_not_existing(self):
+        with self.assertRaises(Exception) as context:
+            self.student.leave_course("MathForDevs")
+        expected_msg = str(context.exception)
+        actual_msg = "Cannot remove course. Course not found."
+        self.assertEqual(expected_msg, actual_msg)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
+    unittest.main()
