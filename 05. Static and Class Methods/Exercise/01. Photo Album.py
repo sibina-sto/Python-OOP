@@ -1,3 +1,4 @@
+# 85/100
 class PhotoAlbum:
     def __init__(self, pages):
         self.pages = pages
