@@ -1,39 +1,30 @@
-# 85/100
+import math
+
 class PhotoAlbum:
     def __init__(self, pages):
         self.pages = pages
-        self.photos = []
-        for _ in range(pages):
-            self.photos.append([])
+        self.photos = [[] for i in range(self.pages)]
 
     @classmethod
     def from_photos_count(cls, photos_count):
-        return cls(photos_count // 4)
+        return cls(math.ceil(photos_count/4))
 
     def add_photo(self, label):
-        if not len(self.photos[-1]) == 4:
-            for page in self.photos:
-                if len(page) != 4:
-                    page.append(label)
-                    break
-            return f"{label} photo added successfully on" \
-                   f" page {self.photos.index(page) + 1} slot {page.index(label) + 1}"
-        return "No more free spots"
+        for page in self.photos:
+            if len(page) < 4:
+                page.append(label)
+                return f"{label} photo added successfully on page {self.photos.index(page) + 1} slot {page.index(label) + 1}"
+        return "No more free slots"
 
     def display(self):
-        res = "-----------\n"
-        for p in self.photos:
-            res += (''.join(["[] " for s in p])).strip()
-            res += "\n-----------\n"
-        return res
-
-
-album = PhotoAlbum(2)
-print(album.add_photo("baby"))
-print(album.add_photo("first grade"))
-print(album.add_photo("eight grade"))
-print(album.add_photo("party with friends"))
-print(album.photos)
-print(album.add_photo("prom"))
-print(album.add_photo("wedding"))
-print(album.display())
+        result = ""
+        for i in range(len(self.photos)):
+            result += "-" * 11 + "\n"
+            if len(self.photos[i]) == 0:
+                result += "\n"
+            else:
+                result += "[] " * len(self.photos[i])
+                result = result.rstrip()
+                result += "\n"
+        result += "-" * 11 + "\n"
+        return result
