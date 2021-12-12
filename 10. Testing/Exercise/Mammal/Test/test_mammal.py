@@ -1,33 +1,27 @@
-import unittest
+from unittest import TestCase, main
 
 from project.mammal import Mammal
 
 
-class MammalTests(unittest.TestCase):
-
+class TestMammal(TestCase):
     def setUp(self):
-        self.mammal = Mammal("Chocho", "elephant", "trumpet")
+        self.animal = Mammal('Tom', 'cat', 'meow')
 
-    def test_mammal_make_sound__to_return_sound(self):
-        expected_msg = f"{self.mammal.name} makes {self.mammal.sound}"
-        actual_msg = self.mammal.make_sound()
-        self.assertEqual(expected_msg, actual_msg)
+    def test_initialization(self):
+        self.assertEqual('Tom', self.animal.name)
+        self.assertEqual('cat', self.animal.type)
+        self.assertEqual('meow', self.animal.sound)
+        self.assertEqual('animals', self.animal._Mammal__kingdom)
 
-    def test_mammal_get_kingdom__to_return_kingdom_attr(self):
-        expected = "animals"
-        actual = self.mammal.get_kingdom()
-        self.assertEqual(expected, actual)
+    def test_making_sound(self):
+        self.assertEqual("Tom makes meow", self.animal.make_sound())
 
-    def test_mammal_info__to_return_info(self):
-        expected = f"{self.mammal.name} is of type {self.mammal.type}"
-        actual = self.mammal.info()
-        self.assertEqual(expected, actual)
+    def test_get_kingdom(self):
+        self.assertEqual('animals', self.animal.get_kingdom())
 
-    def test_mammal_init__expect_initialization(self):
-        self.assertEqual("Chocho", self.mammal.name)
-        self.assertEqual("elephant", self.mammal.type)
-        self.assertEqual("trumpet", self.mammal.sound)
-        self.assertEqual("animals", self.mammal._Mammal__kingdom)
+    def test_get_info(self):
+        self.assertEqual('Tom is of type cat', self.animal.info())
 
-if __name__ == "__main__":
-    unittest.main()
+
+if __name__ == '__main__':
+    main()
